@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Base from '../components/Base'
 import { Container,Card, CardHeader, CardBody, Form, FormGroup, Input, Label, Button, Row, Col } from 'reactstrap'
 import { loginUser } from '../services/user-services'
+import { doLogin } from '../auth'
 const Login = () => {
 
   const [loginDetail,setLoginDetail] = useState({
@@ -35,9 +36,14 @@ const Login = () => {
     }
 
     //submit the data to server to generate token
-    loginUser(loginDetail).then((jwtTokenData)=>{
-        console.log("user login: ")
-        console.log(jwtTokenData)
+    loginUser(loginDetail).then((data)=>{
+    
+        console.log(data)
+
+        //save the data to localstorage
+        doLogin(data,()=>{
+            console.log("login detail is saved to localstorage")
+        })
     }).catch(error=>{
         console.log(error)
         toast.error("Something went wrong !!")
