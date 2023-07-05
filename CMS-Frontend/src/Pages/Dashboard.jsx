@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Base from '../components/Base'
+import SideBar from '../components/sidebar/SideBar'
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    
+    <Base>
+      <SideBar/>
+    </Base>
+    
   )
 }
 

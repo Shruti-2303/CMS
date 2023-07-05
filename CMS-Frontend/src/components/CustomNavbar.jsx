@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { NavLink as ReactLink } from 'react-router-dom';
+import { NavLink as ReactLink, useNavigate } from 'react-router-dom';
 import {
   Collapse,
   Navbar,
@@ -9,9 +9,10 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
-import { getCurrentUserDetail, isLoggedIn } from '../auth';
+import { doLogout, getCurrentUserDetail, isLoggedIn } from '../auth';
 
 const CustomNavbar = () => {
+  const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false);
 
   const[login,setLogin] = useState(false);
@@ -25,9 +26,16 @@ const CustomNavbar = () => {
   },[login])
   const toggle = () => setIsOpen(!isOpen);
 
+  const logout=()=>{
+    doLogout(()=>{
+      //logged out
+      setLogin(false)
+      navigate("/")
+    })
+  }
   return (
     <div>
-      <Navbar color='info' dark expand='md' fixed='' className='px-5'>
+      <Navbar style={{backgroundColor:'#7386d5'}} dark expand='md' fixed='' className='px-5'>
         <NavbarBrand href="/">Cafe Management System</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
@@ -39,28 +47,35 @@ const CustomNavbar = () => {
               login && (
                 <>
                   <NavItem>
-                    <NavLink>
+                    <NavLink onClick={logout}>
                       Logout
                     </NavLink>
                   </NavItem>
                   <NavItem>
                     <NavLink>
-                      <div>{user.email}</div>
+                      <div>{user.sub}</div>
                     </NavLink>
                   </NavItem>
                 </>
               )
             }
-            <NavItem>
-              <NavLink tag={ReactLink} to='/login'>
-                Login
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink tag={ReactLink} to='/signup'>
-                Signup
-              </NavLink>
-            </NavItem>
+            {
+               !login && (
+                <>
+                  <NavItem>
+                    <NavLink tag={ReactLink} to='/login'>
+                      Login
+                    </NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink tag={ReactLink} to='/signup'>
+                      Signup
+                    </NavLink>
+                  </NavItem>
+                </>
+              )
+            }
+            
           </Nav>
           
         </Collapse>

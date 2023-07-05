@@ -3,7 +3,11 @@ import Base from '../components/Base'
 import { Container,Card, CardHeader, CardBody, Form, FormGroup, Input, Label, Button, Row, Col } from 'reactstrap'
 import { loginUser } from '../services/user-services'
 import { doLogin } from '../auth'
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom'
 const Login = () => {
+  
+    const navigate = useNavigate()
 
   const [loginDetail,setLoginDetail] = useState({
     email : '',
@@ -43,6 +47,9 @@ const Login = () => {
         //save the data to localstorage
         doLogin(data,()=>{
             console.log("login detail is saved to localstorage")
+            toast.success("Login Successfully !!")
+            //redirect to dashboard
+            navigate("/dashboard")
         })
     }).catch(error=>{
         console.log(error)

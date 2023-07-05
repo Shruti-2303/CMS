@@ -1,11 +1,12 @@
+import jwt_decode from 'jwt-decode'
 //isLoggedIn
 export const isLoggedIn=()=>{
     let data = localStorage.getItem("data")
-    if(data==null){
-        return false
+    if(data){
+        return true
     }
     else{
-        return true;
+        return false;
     }
 }
 
@@ -26,7 +27,11 @@ export const doLogout=(next)=>{
 export const getCurrentUserDetail=()=>{
     if(isLoggedIn){
         return JSON.parse(localStorage.getItem("data"))
+        // const tokenObj  = JSON.parse(localStorage.getItem("data"));
+        // const decoded = jwt_decode(tokenObj?.token)
+        // console.log("decoded: ", decoded);
+        // return decoded;
     } else {
-        return undefined
+        return undefined;
     }
 }
