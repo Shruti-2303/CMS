@@ -33,25 +33,25 @@ const SideBar = ({ isOpen, toggle }) => (
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink tag={Link} to={"/pages"} className="f-white">
+          <NavLink tag={Link} to={"/manageproduct"} className="f-white">
             <FontAwesomeIcon icon={faImage} className="mr-2" />
             Manage Product
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink tag={Link} to={"/faq"} className="f-white">
-            <FontAwesomeIcon icon={faQuestion} className="mr-2" />
+          <NavLink tag={Link} to={"/manageorder"} className="f-white">
+            <FontAwesomeIcon icon={faImage} className="mr-2" />
             Manage Order
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink tag={Link} to={"/contact"} className="f-white">
+          <NavLink tag={Link} to={"/viewbill"} className="f-white">
             <FontAwesomeIcon icon={faPaperPlane} className="mr-2" />
             View Bill
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink tag={Link} to={"/contact"} className="f-white">
+          <NavLink tag={Link} to={"/manageuser"} className="f-white">
             <FontAwesomeIcon icon={faPaperPlane} className="mr-2" />
             Manage Users
           </NavLink>

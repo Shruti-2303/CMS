@@ -1,4 +1,3 @@
-import React from 'react'
 import Base from '../components/Base'
 import SideBar from '../components/sidebar/SideBar'
 
@@ -10,8 +9,6 @@ const ManageCategory = () => {
             
             <div style={{flex:4}}>Manage Category</div>
         </div>
-        {/* <SideBar/>
-        <h1>Manage Category</h1> */}
     </Base>
   )
 }

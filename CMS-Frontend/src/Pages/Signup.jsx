@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import  {  useState } from 'react'
 import Base from '../components/Base'
 import { Container,Card, CardHeader, CardBody, Form, FormGroup, Input, Label, Button, Row, Col } from 'reactstrap'
 import { signUp } from '../services/user-services'
@@ -65,9 +65,9 @@ const Signup = () => {
   return (
     <Base>
         <Container>
-            <Row className='mt-4'>
+            <Row className='mt-4 d-flex justify-content-center'>
 
-                <Col sm={{size:6,offset:3}}>
+                <Col>
                     <Card color='info' inverse>
                         <CardHeader>
 
