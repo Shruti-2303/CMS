@@ -1,4 +1,5 @@
 import Base from '../components/Base'
+import ManageCatComp from '../components/manageCatComp'
 import SideBar from '../components/sidebar/SideBar'
 
 const ManageCategory = () => {
@@ -7,7 +8,7 @@ const ManageCategory = () => {
         <div style={{display:'flex'}}>
             <div style={{flex:1}}><SideBar/></div>
             
-            <div style={{flex:4}}>Manage Category</div>
+            <div style={{flex:4}}><ManageCatComp/></div>
         </div>
     </Base>
   )

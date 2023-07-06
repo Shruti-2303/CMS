@@ -1,10 +1,8 @@
-import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './SideBar.css'
 import {
   faBriefcase,
   faPaperPlane,
-  faQuestion,
   faImage,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavItem, NavLink, Nav } from "reactstrap";

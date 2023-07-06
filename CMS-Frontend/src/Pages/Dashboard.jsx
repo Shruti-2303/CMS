@@ -1,18 +1,47 @@
-import Base from '../components/Base'
-import SideBar from '../components/sidebar/SideBar'
+import { useEffect, useState } from "react";
+import Base from "../components/Base";
+import DashboardComp from "../components/DashboardComp";
+import SideBar from "../components/sidebar/SideBar";
+import axios from "axios";
 
 const Dashboard = () => {
-  return (
-    
-    <Base>
-        <div style={{display:'flex'}}>
-            <div style={{flex:1}}><SideBar/></div>
-            
-            <div style={{flex:4}}>Dashboard</div>
-        </div>
-    </Base>
-    
-  )
-}
+  const [dashboardData, setDashboardData] = useState();
 
-export default Dashboard
+  useEffect(() => {
+    let data = JSON.parse(localStorage.getItem("data"));
+    let userToken = data.token;
+
+    const apiUrl = "http://localhost:8081/dashboard/details";
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    };
+
+    axios
+      .get(apiUrl, config)
+      .then((response) => {
+        setDashboardData(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+  return (
+    <Base>
+      <div style={{ display: "flex" }}>
+        <div style={{ flex: 1 }}>
+          <SideBar />
+        </div>
+
+        <div style={{ flex: 4 }}>
+          <DashboardComp dashboardData={dashboardData} />
+        </div>
+      </div>
+    </Base>
+  );
+};
+
+export default Dashboard;
