@@ -129,24 +129,8 @@ const ManageCatComp = (args) => {
   };
 
   useEffect(() => {
-    const apiUrl = "http://localhost:8081/category/get";
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-      },
-    };
-
-    axios
-      .get(apiUrl, config)
-      .then((response) => {
-        setCategoryDetails(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+    fetchCategoryDetails()
+    }, []);
 
   return (
     <div>
