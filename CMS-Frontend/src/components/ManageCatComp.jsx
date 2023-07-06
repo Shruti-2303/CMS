@@ -33,6 +33,7 @@ const ManageCatComp = (args) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
   const addCategoryToggle = () => setModal(!modal);
+
   const updateCategoryToggle = (categoryId) => {
     setSelectedCategoryId(categoryId);
     setModal2(!modal2);
@@ -48,6 +49,24 @@ const ManageCatComp = (args) => {
       category.name.toLowerCase().includes(e.target.value.toLowerCase())
     );
     setFilteredCategoryDetails(filteredCategories);
+  };
+
+  const fetchCategoryDetails = async () => {
+    const apiUrl = "http://localhost:8081/category/get";
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    };
+
+    try {
+      const response = await axios.get(apiUrl, config);
+      setCategoryDetails(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleAddCategory = async (e) => {
@@ -69,12 +88,14 @@ const ManageCatComp = (args) => {
       );
 
       addCategoryToggle();
+      await fetchCategoryDetails();
 
       console.log("API DATA", response.data);
     } catch (error) {
       console.error(error);
     }
   };
+
   const handleUpdateCategory = async (e) => {
     e.preventDefault();
 
@@ -92,6 +113,7 @@ const ManageCatComp = (args) => {
       );
 
       updateCategoryToggle();
+      await fetchCategoryDetails();
 
       console.log("API DATA", response.data);
     } catch (error) {
