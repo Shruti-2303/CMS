@@ -1,5 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { BsPlusCircle } from "react-icons/bs";
+import { PiNotePencilBold } from "react-icons/pi";
+
 import {
   Button,
   Card,
@@ -23,10 +26,17 @@ const ManageCatComp = (args) => {
   const [categoryDetails, setCategoryDetails] = useState([]);
   const [filteredCategoryDetails, setFilteredCategoryDetails] = useState([]);
   const [modal, setModal] = useState(false);
+  const [modal2, setModal2] = useState(false);
   const [addCat, setAddCat] = useState("");
+  const [updateCat, setUpdateCat] = useState("");
   const [addFilter, setAddFilter] = useState("");
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
-  const toggle = () => setModal(!modal);
+  const addCategoryToggle = () => setModal(!modal);
+  const updateCategoryToggle = (categoryId) => {
+    setSelectedCategoryId(categoryId);
+    setModal2(!modal2);
+  };
 
   let data = JSON.parse(localStorage.getItem("data"));
   let userToken = data.token;
@@ -58,7 +68,30 @@ const ManageCatComp = (args) => {
         config
       );
 
-      toggle();
+      addCategoryToggle();
+
+      console.log("API DATA", response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleUpdateCategory = async (e) => {
+    e.preventDefault();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8081/category/update",
+        { id: selectedCategoryId, name: updateCat },
+        config
+      );
+
+      updateCategoryToggle();
 
       console.log("API DATA", response.data);
     } catch (error) {
@@ -69,11 +102,11 @@ const ManageCatComp = (args) => {
   const handleChange = (e) => {
     setAddCat(e.target.value);
   };
+  const handleChange2 = (e) => {
+    setUpdateCat(e.target.value);
+  };
 
   useEffect(() => {
-    let data = JSON.parse(localStorage.getItem("data"));
-    let userToken = data.token;
-
     const apiUrl = "http://localhost:8081/category/get";
 
     const config = {
@@ -109,8 +142,8 @@ const ManageCatComp = (args) => {
           }}
         >
           <CardTitle tag="h5">Manage Category</CardTitle>
-          <Button onClick={toggle} style={{ background: "#6d7fcc" }}>
-            Add Category
+          <Button onClick={addCategoryToggle} style={{ background: "#6d7fcc" }}>
+            Add Category <BsPlusCircle />
           </Button>
         </CardBody>
       </Card>
@@ -141,16 +174,32 @@ const ManageCatComp = (args) => {
         <ListGroup flush>
           {addFilter
             ? filteredCategoryDetails.map((category) => (
-                <ListGroupItem key={category.id}>{category.name}</ListGroupItem>
+                <ListGroupItem
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                  key={category.id}
+                >
+                  <div>{category.name}</div>
+                  <div onClick={() => updateCategoryToggle(category.id)}>
+                    <PiNotePencilBold />
+                  </div>
+                </ListGroupItem>
               ))
             : categoryDetails.map((category) => (
-                <ListGroupItem key={category.id}>{category.name}</ListGroupItem>
+                <ListGroupItem
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                  key={category.id}
+                >
+                  <div>{category.name}</div>
+                  <div onClick={() => updateCategoryToggle(category.id)}>
+                    <PiNotePencilBold />
+                  </div>
+                </ListGroupItem>
               ))}
         </ListGroup>
       </Card>
 
-      <Modal isOpen={modal} toggle={toggle} {...args}>
-        <ModalHeader toggle={toggle}>Add Category</ModalHeader>
+      <Modal isOpen={modal} {...args}>
+        <ModalHeader onClick={addCategoryToggle}>Add Category</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>
@@ -173,7 +222,39 @@ const ManageCatComp = (args) => {
           >
             Add Category
           </Button>{" "}
-          <Button color="secondary" onClick={toggle}>
+          <Button color="secondary" onClick={addCategoryToggle}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal isOpen={modal2} {...args}>
+        <ModalHeader onClick={updateCategoryToggle}>
+          Update Category
+        </ModalHeader>
+        <ModalBody>
+          <Form>
+            <FormGroup>
+              <Input
+                name="category"
+                value={updateCat}
+                placeholder="Update Category"
+                type="input"
+                onChange={handleChange2}
+                required
+              />
+            </FormGroup>
+          </Form>
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            disabled={!updateCat}
+            color="primary"
+            onClick={handleUpdateCategory}
+          >
+            Update Category
+          </Button>{" "}
+          <Button color="secondary" onClick={updateCategoryToggle}>
             Cancel
           </Button>
         </ModalFooter>
