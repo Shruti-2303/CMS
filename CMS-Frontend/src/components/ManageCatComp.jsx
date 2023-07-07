@@ -129,8 +129,8 @@ const ManageCatComp = (args) => {
   };
 
   useEffect(() => {
-    fetchCategoryDetails()
-    }, []);
+    fetchCategoryDetails();
+  }, []);
 
   return (
     <div>

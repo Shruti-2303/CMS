@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import DashboardCard from "./DashboardCard";
+import { Card, CardBody, CardTitle } from "reactstrap";
 
 const DashboardComp = (props) => {
   const { dashboardData } = props;
@@ -8,25 +10,50 @@ const DashboardComp = (props) => {
 
   return (
     <div>
+      <Card
+        style={{
+          width: "95%",
+          marginTop: "10px",
+        }}
+      >
+        <CardBody
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <CardTitle tag="h5">Dashboard</CardTitle>
+        </CardBody>
+      </Card>
       {dashboardData ? (
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
+        <div
+          style={{
+            width: "95%",
+            display: "flex",
+            justifyContent: "space-around",
+          }}
+        >
           <div>
-            <div>Category: {dashboardData.category}</div>
-            <button>
-              <Link to={{ pathname: "/managecategory" }}>View Categories</Link>
-            </button>
+            <DashboardCard
+              type={dashboardData.category}
+              name={"Categories"}
+              path={"/managecategory"}
+            />
           </div>
           <div>
-            <div>Product: {dashboardData.product}</div>
-            <button>
-              <Link to={{ pathname: "/manageproduct" }}>View Products</Link>
-            </button>
+            <DashboardCard
+              type={dashboardData.product}
+              name={"Products"}
+              path={"/manageproduct"}
+            />
           </div>
           <div>
-            <div>Bill: {dashboardData.bill}</div>
-            <button>
-              <Link to={{ pathname: "/viewbill" }}>View Bills</Link>
-            </button>
+            <DashboardCard
+              type={dashboardData.bill}
+              name={"Bills"}
+              path={"/viewbill"}
+            />
           </div>
         </div>
       ) : (
