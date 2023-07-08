@@ -10,6 +10,10 @@ import {
   NavLink,
 } from 'reactstrap';
 import { doLogout, getCurrentUserDetail, isLoggedIn } from '../auth';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMugHot
+} from "@fortawesome/free-solid-svg-icons";
 
 const CustomNavbar = () => {
   const navigate = useNavigate()
@@ -36,7 +40,10 @@ const CustomNavbar = () => {
   return (
     <div>
       <Navbar style={{backgroundColor:'#7386d5'}} dark expand='md' fixed='' className='px-5'>
-        <NavbarBrand href="/">Cafe Management System</NavbarBrand>
+        <NavbarBrand href="/">
+          <FontAwesomeIcon icon={faMugHot} style={{marginRight: "10px"}}/>
+          BeCafe
+          </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="me-auto" navbar>

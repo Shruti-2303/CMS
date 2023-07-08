@@ -11,7 +11,7 @@ import ManageProduct from './Pages/ManageProduct';
 import ManageOrder from './Pages/ManageOrder';
 import ViewBill from './Pages/ViewBill';
 import ManageUser from './Pages/ManageUser';
-// import './App.css';
+import './App.css';
 function App() {
   
 
