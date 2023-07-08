@@ -52,7 +52,7 @@ const ManageUserComp = () => {
         },
         config
       );
-
+      await fetchUserDetails();
       console.log("API DATA", response.data);
     } catch (error) {
       console.error(error);
