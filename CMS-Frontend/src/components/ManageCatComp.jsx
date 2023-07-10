@@ -7,8 +7,6 @@ import {
   Button,
   Card,
   CardBody,
-  CardLink,
-  CardText,
   CardTitle,
   ListGroup,
   ListGroupItem,
@@ -18,7 +16,6 @@ import {
   ModalFooter,
   Form,
   FormGroup,
-  Label,
   Input,
 } from "reactstrap";
 
