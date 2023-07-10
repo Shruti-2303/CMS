@@ -2,18 +2,31 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import {
+  Button,
   Card,
   CardBody,
   CardTitle,
+  Form,
+  FormGroup,
+  Input,
+  Label,
   ListGroup,
   ListGroupItem,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
 } from "reactstrap";
 import { GrDocumentPdf } from "react-icons/gr";
+import { AiFillDelete } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
-const ViewBillComp = () => {
+
+const ViewBillComp = (args) => {
   const [billDetails, setBillDetails] = useState([]);
   const [filteredBillDetails, setFilteredBillDetails] = useState([]);
   const [addFilter, setAddFilter] = useState("");
+  const [modal, setModal] = useState(false);
+  const [deleteBillSelect, setDeleteBillSelect] = useState();
 
   let data = JSON.parse(localStorage.getItem("data"));
   let userToken = data.token;
@@ -68,6 +81,34 @@ const ViewBillComp = () => {
 
       console.log("API DATA", response.data);
       downloadPdf(response.data, uuid);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deleteBillModalToggle = (productId) => {
+    setDeleteBillSelect(productId);
+    setModal(!modal);
+  };
+
+  const deleteBill = async (deleteID) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    };
+
+    try {
+      const response = await axios.post(
+        `http://localhost:8081/bill/delete/${deleteID}`,
+        {},
+        config
+      );
+
+      deleteBillModalToggle();
+      await fetchBillDetails();
+
+      console.log("API DATA", response.data);
     } catch (error) {
       console.error(error);
     }
@@ -173,12 +214,24 @@ const ViewBillComp = () => {
                   <div style={{ flex: "1" }}>{bill.contactNumber}</div>
                   <div style={{ flex: "1" }}>{bill.paymentMethod}</div>
                   <div style={{ flex: "1" }}>{bill.total}</div>
-                  <div style={{ flex: "1" }}>
+                  <div style={{ flex: "1", display: "flex" }}>
                     <GrDocumentPdf
-                      style={{ margin: "5px", fontSize: "18px" }}
-                      onClick={handleBillDownload}
+                      style={{ margin: "5px", fontSize: "17px" }}
+                      onClick={() =>
+                        generatePdf(
+                          bill.contactNumber,
+                          bill.email,
+                          bill.name,
+                          bill.paymentMethod,
+                          bill.productDetails,
+                          bill.total,
+                          bill.uuid
+                        )
+                      }
                     />
-                    <MdDelete style={{ margin: "5px", fontSize: "20px" }} />
+                    <div onClick={() => deleteBillModalToggle(bill.id)}>
+                      <MdDelete style={{ fontSize: "20px", margin: "5px" }} />
+                    </div>
                   </div>
                 </ListGroupItem>
               ))
@@ -192,7 +245,9 @@ const ViewBillComp = () => {
                   <div style={{ flex: "1" }}>{bill.contactNumber}</div>
                   <div style={{ flex: "1" }}>{bill.paymentMethod}</div>
                   <div style={{ flex: "1" }}>{bill.total}</div>
-                  <div style={{ flex: "1" }}>
+                  <div
+                    style={{ flex: "1", display: "flex", alignItems: "center" }}
+                  >
                     <GrDocumentPdf
                       style={{ margin: "5px", fontSize: "18px" }}
                       onClick={() =>
@@ -207,12 +262,27 @@ const ViewBillComp = () => {
                         )
                       }
                     />
-                    <MdDelete style={{ margin: "5px", fontSize: "20px" }} />
+                    <div onClick={() => deleteBillModalToggle(bill.id)}>
+                      <MdDelete style={{ fontSize: "20px", margin: "5px" }} />
+                    </div>
                   </div>
                 </ListGroupItem>
               ))}
         </ListGroup>
       </Card>
+
+      <Modal isOpen={modal} {...args}>
+        <ModalHeader onClick={deleteBillModalToggle}>Confirmation</ModalHeader>
+        <ModalBody>Are you sure to delete this bill?</ModalBody>
+        <ModalFooter>
+          <Button color="success" onClick={() => deleteBill(deleteBillSelect)}>
+            Yes
+          </Button>
+          <Button color="danger" onClick={deleteBillModalToggle}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 };

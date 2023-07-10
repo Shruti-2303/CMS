@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { BsPlusCircle } from "react-icons/bs";
 import { AiFillDelete } from "react-icons/ai";
+import { MdDelete } from "react-icons/md";
 import {
   Button,
   Card,
@@ -56,11 +57,6 @@ const ManageProductComp = (args) => {
   const addProductModalToggle = () => {
     fetchCategoryDetails();
     setModal(!modal);
-  };
-
-  const deleteProductModalToggle = (productId) => {
-    setDeleteProductSelect(productId);
-    setModal2(!modal2);
   };
 
   const resetForm = () => {
@@ -152,8 +148,9 @@ const ManageProductComp = (args) => {
     }
   };
 
-  const handleDeleteProduct = (deleteId) => {
-    deleteProduct(deleteId);
+  const deleteProductModalToggle = (productId) => {
+    setDeleteProductSelect(productId);
+    setModal2(!modal2);
   };
 
   const deleteProduct = async (deleteID) => {
@@ -280,20 +277,32 @@ const ManageProductComp = (args) => {
                     <div style={{ flex: "1" }}>{product.categoryName}</div>
                     <div style={{ flex: "1" }}>{product.description}</div>
                     <div style={{ flex: "1" }}>{product.price}</div>
-                    <div style={{ flex: "1" }}>
-                      <Form></Form>
-                      <Form>
-                        <FormGroup switch disabled>
-                          <Input
-                            type="switch"
-                            checked={product.status === "true"}
-                            onChange={() => {
-                              console.log(product.id, "-", product.status);
-                              handleToggle(product.id, product.status);
-                            }}
-                          />
-                        </FormGroup>
-                      </Form>
+                    <div
+                      style={{
+                        flex: "1",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div>
+                        <Form>
+                          <FormGroup switch disabled>
+                            <Input
+                              type="switch"
+                              checked={product.status === "true"}
+                              onChange={() => {
+                                handleToggle(product.id, product.status);
+                              }}
+                            />
+                          </FormGroup>
+                        </Form>
+                      </div>
+                      <div
+                        style={{ marginBottom: "8px" }}
+                        onClick={() => deleteProductModalToggle(product.id)}
+                      >
+                        <MdDelete />
+                      </div>
                     </div>
                   </ListGroupItem>
                 ))
@@ -330,7 +339,7 @@ const ManageProductComp = (args) => {
                         style={{ marginBottom: "8px" }}
                         onClick={() => deleteProductModalToggle(product.id)}
                       >
-                        <AiFillDelete />
+                        <MdDelete />
                       </div>
                     </div>
                   </ListGroupItem>
@@ -416,7 +425,7 @@ const ManageProductComp = (args) => {
         <ModalFooter>
           <Button
             color="success"
-            onClick={() => handleDeleteProduct(deleteProductSelect)}
+            onClick={() => deleteProduct(deleteProductSelect)}
           >
             Yes
           </Button>
