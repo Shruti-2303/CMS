@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import './SideBar.css'
+import "./SideBar.css";
 import {
   faBriefcase,
   faPaperPlane,
@@ -58,6 +58,5 @@ const SideBar = ({ isOpen, toggle }) => (
     </div>
   </div>
 );
-
 
 export default SideBar;

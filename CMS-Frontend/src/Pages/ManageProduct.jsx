@@ -1,6 +1,5 @@
 import Base from "../components/Base";
 import ManageProductComp from "../components/ManageProductComp";
-import ManageProductComp2 from "../components/ManageProductComp2";
 import SideBar from "../components/sidebar/SideBar";
 
 const ManageProduct = () => {

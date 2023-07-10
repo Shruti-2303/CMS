@@ -1,16 +1,19 @@
-import Base from "../components/Base"
-import SideBar from "../components/sidebar/SideBar"
+import Base from "../components/Base";
+import ManageOrderComp from "../components/ManageOrderComp";
+import SideBar from "../components/sidebar/SideBar";
 
 const ManageOrder = () => {
   return (
     <Base>
-        <div style={{display:'flex'}}>
-            <div style={{flex:1}}><SideBar/></div>
-            
-            <div style={{flex:4}}>Manage Order</div>
+      <div style={{ display: "flex" }}>
+        <div style={{ flex: 1 }}>
+          <SideBar />
         </div>
-    </Base>
-  )
-}
 
-export default ManageOrder
+        <div style={{ flex: 4 }}>Manage Order</div>
+      </div>
+    </Base>
+  );
+};
+
+export default ManageOrder;

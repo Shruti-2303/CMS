@@ -10,9 +10,10 @@ const ManageUser = () => {
           <SideBar />
         </div>
 
-        <div style={{ flex: 4 }}>
+        <div style={{ flex: 4 }}>Manage User</div>
+        {/* <div style={{ flex: 4 }}>
           <ManageUserComp />
-        </div>
+        </div> */}
       </div>
     </Base>
   );
