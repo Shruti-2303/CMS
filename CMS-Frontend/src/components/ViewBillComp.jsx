@@ -216,7 +216,11 @@ const ViewBillComp = (args) => {
                   <div style={{ flex: "1" }}>{bill.total}</div>
                   <div style={{ flex: "1", display: "flex" }}>
                     <GrDocumentPdf
+<<<<<<< Updated upstream
                       style={{ margin: "5px", fontSize: "17px" }}
+=======
+                      style={{ margin: "5px", fontSize: "18px" }}
+>>>>>>> Stashed changes
                       onClick={() =>
                         generatePdf(
                           bill.contactNumber,
