@@ -10,9 +10,7 @@ const ViewBill = () => {
           <SideBar />
         </div>
 
-        <div style={{ flex: 4 }}>
-          <ViewBillComp />
-        </div>
+        <div style={{flex:6}}><ViewBillComp/></div>
         {/* <div style={{ flex: 4 }}>View Bill</div> */}
       </div>
     </Base>
