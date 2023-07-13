@@ -74,92 +74,95 @@ const Login = () => {
         style={{
           display: "flex",
           backgroundColor: "#e3e6f6",
-          height: "94vh",
+          height: "96vh",
           alignItems: "center",
         }}
       >
-        <img
-          src={eatingCafe}
-          alt=""
-          style={{
-            width: "600px",
-            marginTop: "30px",
-            height: "72vh",
-            marginLeft: "30px",
-          }}
-        />
-        <Card
-          style={{
-            backgroundColor: "#fff",
-            width: "450px",
-            marginLeft: "200px",
-            height: "60vh",
-            marginTop: "20px",
-            padding: "30px",
-            border: "0.5px solid #7386d5",
-          }}
-        >
-          <div
+        <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
+          <img
+            src={eatingCafe}
+            alt=""
             style={{
-              textAlign: "center",
-              paddingTop: "20px",
-              color: "#22283f",
+              height: "60vh",
+              marginLeft: "100px",
+            }}
+          />
+        </div>
+        <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
+          <Card
+            style={{
+              backgroundColor: "#fff",
+              width: "60%",
+              height: "60%",
+              padding: "30px",
+              border: "0.5px solid #7386d5",
             }}
           >
-            <h3>Login Here!!!</h3>
-          </div>
-          <hr style={{ border: "0.5px solid #7386d5", opacity: "1" }}></hr>
-          <CardBody>
-            {/* creating form */}
+            <div
+              style={{
+                textAlign: "center",
+                paddingTop: "10px",
+                color: "#22283f",
+              }}
+            >
+              <h3>Login Here!!!</h3>
+            </div>
+            <hr style={{ border: "0.5px solid #7386d5", opacity: "1" }}></hr>
+            <CardBody>
+              {/* creating form */}
 
-            <Form onSubmit={handleFormSubmit}>
-              <FormGroup style={{ marginTop: "30px" }}>
-                <Label
-                  for="email"
-                  style={{ color: "#22283f", fontSize: "20px" }}
-                >
-                  Email
-                </Label>
-                <Input
-                  type="email"
-                  placeholder="Enter here"
-                  id="email"
-                  value={loginDetail.email}
-                  onChange={(e) => handleChange(e, "email")}
-                  style={{ border: "1px solid #7386d5" }}
-                />
-              </FormGroup>
-              <FormGroup style={{ marginTop: "30px" }}>
-                <Label
-                  for="password"
-                  style={{ color: "#22283f", fontSize: "20px" }}
-                >
-                  Password
-                </Label>
-                <Input
-                  type="password"
-                  placeholder="Enter Password"
-                  id="password"
-                  value={loginDetail.password}
-                  onChange={(e) => handleChange(e, "password")}
-                  style={{ border: "1px solid #7386d5" }}
-                />
-              </FormGroup>
+              <Form onSubmit={handleFormSubmit}>
+                <FormGroup style={{ marginTop: "5px" }}>
+                  <Label
+                    for="email"
+                    style={{ color: "#22283f", fontSize: "20px" }}
+                  >
+                    Email
+                  </Label>
+                  <Input
+                    type="email"
+                    placeholder="Enter here"
+                    id="email"
+                    value={loginDetail.email}
+                    onChange={(e) => handleChange(e, "email")}
+                    style={{ border: "1px solid #7386d5" }}
+                  />
+                </FormGroup>
+                <FormGroup style={{ marginTop: "5px" }}>
+                  <Label
+                    for="password"
+                    style={{ color: "#22283f", fontSize: "20px" }}
+                  >
+                    Password
+                  </Label>
+                  <Input
+                    type="password"
+                    placeholder="Enter Password"
+                    id="password"
+                    value={loginDetail.password}
+                    onChange={(e) => handleChange(e, "password")}
+                    style={{ border: "1px solid #7386d5" }}
+                  />
+                </FormGroup>
 
-              <Container className="text-center" style={{ marginTop: "50px" }}>
-                <Button style={{ backgroundColor: "#22283f" }}>Login</Button>
-                <Button
-                  color="danger"
-                  type="reset"
-                  className="ms-2"
-                  onClick={handleReset}
+                <Container
+                  className="text-center"
+                  style={{ marginTop: "30px" }}
                 >
-                  Reset
-                </Button>
-              </Container>
-            </Form>
-          </CardBody>
-        </Card>
+                  <Button style={{ backgroundColor: "#22283f" }}>Login</Button>
+                  <Button
+                    color="danger"
+                    type="reset"
+                    className="ms-2"
+                    onClick={handleReset}
+                  >
+                    Reset
+                  </Button>
+                </Container>
+              </Form>
+            </CardBody>
+          </Card>
+        </div>
       </div>
     </Base>
   );

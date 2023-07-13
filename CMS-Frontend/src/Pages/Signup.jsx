@@ -81,130 +81,130 @@ const Signup = () => {
         style={{
           display: "flex",
           backgroundColor: "#e3e6f6",
-          height: "94vh",
+          height: "96vh",
           alignItems: "center",
         }}
       >
-        <Card
-          style={{
-            backgroundColor: "#fff",
-            width: "500px",
-            marginLeft: "100px",
-            height: "65vh",
-            marginTop: "20px",
-            padding: "30px",
-            border: "0.5px solid #7386d5",
-          }}
-        >
-          <div
+        <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
+          <Card
             style={{
-              textAlign: "center",
-              paddingTop: "20px",
-              color: "#22283f",
+              backgroundColor: "#fff",
+              width: "60%",
+              height: "60%",
+              marginLeft: "100px",
+              padding: "30px",
+              border: "0.5px solid #7386d5",
             }}
           >
-            <h3>Fill Information to Register!!!</h3>
-          </div>
-          <hr style={{ border: "1px solid #7386d5", opacity: "1" }}></hr>
-          <CardBody>
-            {/* creating form */}
+            <div
+              style={{
+                textAlign: "center",
+                paddingTop: "10px",
+                color: "#22283f",
+              }}
+            >
+              <h3>Fill Information to Register!!!</h3>
+            </div>
+            <hr style={{ border: "1px solid #7386d5", opacity: "1" }}></hr>
+            <CardBody>
+              {/* creating form */}
 
-            <Form onSubmit={submitForm}>
-              {/* Name Field */}
+              <Form onSubmit={submitForm}>
+                {/* Name Field */}
 
-              <FormGroup>
-                <Label for="name" style={{ color: "#22283f" }}>
-                  Name
-                </Label>
-                <Input
-                  type="text"
-                  placeholder="Enter here"
-                  id="name"
-                  onChange={(e) => handleChange(e, "name")}
-                  value={data.name}
-                  required
-                  minLength={2}
-                  style={{ border: "1px solid #7386d5" }}
-                />
-              </FormGroup>
+                <FormGroup>
+                  <Label for="name" style={{ color: "#22283f" }}>
+                    Name
+                  </Label>
+                  <Input
+                    type="text"
+                    placeholder="Enter here"
+                    id="name"
+                    onChange={(e) => handleChange(e, "name")}
+                    value={data.name}
+                    required
+                    minLength={2}
+                    style={{ border: "1px solid #7386d5" }}
+                  />
+                </FormGroup>
 
-              {/* Contact Field */}
+                {/* Contact Field */}
 
-              <FormGroup>
-                <Label for="contactNumber" style={{ color: "#22283f" }}>
-                  Contact Number
-                </Label>
-                <Input
-                  type="tel"
-                  placeholder="Enter here"
-                  id="contactNumber"
-                  onChange={(e) => handleChange(e, "contactNumber")}
-                  value={data.contactNumber}
-                  required
-                  minLength={10}
-                  maxLength={10}
-                  style={{ border: "1px solid #7386d5" }}
-                />
-              </FormGroup>
+                <FormGroup>
+                  <Label for="contactNumber" style={{ color: "#22283f" }}>
+                    Contact Number
+                  </Label>
+                  <Input
+                    type="tel"
+                    placeholder="Enter here"
+                    id="contactNumber"
+                    onChange={(e) => handleChange(e, "contactNumber")}
+                    value={data.contactNumber}
+                    required
+                    minLength={10}
+                    maxLength={10}
+                    style={{ border: "1px solid #7386d5" }}
+                  />
+                </FormGroup>
 
-              {/* Email Field */}
+                {/* Email Field */}
 
-              <FormGroup>
-                <Label for="email" style={{ color: "#22283f" }}>
-                  Email
-                </Label>
-                <Input
-                  type="email"
-                  placeholder="Enter here"
-                  id="email"
-                  onChange={(e) => handleChange(e, "email")}
-                  value={data.email}
-                  required
-                  style={{ border: "1px solid #7386d5" }}
-                />
-              </FormGroup>
+                <FormGroup>
+                  <Label for="email" style={{ color: "#22283f" }}>
+                    Email
+                  </Label>
+                  <Input
+                    type="email"
+                    placeholder="Enter here"
+                    id="email"
+                    onChange={(e) => handleChange(e, "email")}
+                    value={data.email}
+                    required
+                    style={{ border: "1px solid #7386d5" }}
+                  />
+                </FormGroup>
 
-              {/* Password Field */}
+                {/* Password Field */}
 
-              <FormGroup>
-                <Label for="pass" style={{ color: "#22283f" }}>
-                  Password
-                </Label>
-                <Input
-                  type="password"
-                  placeholder="Enter Password"
-                  id="pass"
-                  onChange={(e) => handleChange(e, "password")}
-                  value={data.password}
-                  required
-                  style={{ border: "1px solid #7386d5" }}
-                />
-              </FormGroup>
+                <FormGroup>
+                  <Label for="pass" style={{ color: "#22283f" }}>
+                    Password
+                  </Label>
+                  <Input
+                    type="password"
+                    placeholder="Enter Password"
+                    id="pass"
+                    onChange={(e) => handleChange(e, "password")}
+                    value={data.password}
+                    required
+                    style={{ border: "1px solid #7386d5" }}
+                  />
+                </FormGroup>
 
-              <Container className="text-center">
-                <Button style={{ backgroundColor: "#22283f" }}>Signup</Button>
-                <Button
-                  color="danger"
-                  type="reset"
-                  className="ms-2"
-                  onClick={resetData}
-                >
-                  Reset
-                </Button>
-              </Container>
-            </Form>
-          </CardBody>
-        </Card>
-        <img
-          src={SignUp}
-          alt=""
-          style={{
-            width: "600px",
-            marginTop: "90px",
-            height: "72vh",
-            marginLeft: "100px",
-          }}
-        />
+                <Container className="text-center">
+                  <Button style={{ backgroundColor: "#22283f" }}>Signup</Button>
+                  <Button
+                    color="danger"
+                    type="reset"
+                    className="ms-2"
+                    onClick={resetData}
+                  >
+                    Reset
+                  </Button>
+                </Container>
+              </Form>
+            </CardBody>
+          </Card>
+        </div>
+        <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
+          <img
+            src={SignUp}
+            alt=""
+            style={{
+              height: "60vh",
+            }}
+          />
+        </div>
       </div>
     </Base>
   );
