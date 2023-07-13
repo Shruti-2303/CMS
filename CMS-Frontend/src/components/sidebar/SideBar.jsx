@@ -1,9 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./SideBar.css";
 import {
-  faBriefcase,
-  faPaperPlane,
-  faImage,
+  faBoxArchive,
+  faChalkboard,
+  faListCheck,
+  faWallet,
+  faUser,
+  faPizzaSlice,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavItem, NavLink, Nav } from "reactstrap";
 import classNames from "classnames";
@@ -37,7 +40,7 @@ const SideBar = ({ isOpen, toggle }) => {
         <Nav vertical className="list-unstyled pb-3 ">
           <NavItem style={{ marginBottom: "2px" }}>
             <NavLink tag={Link} to={"/dashboard"} className="f-white">
-              <FontAwesomeIcon icon={faBriefcase} className="mr-2" />
+              <FontAwesomeIcon icon={faChalkboard} className="mr-2" />
               Dashboard
             </NavLink>
           </NavItem>
@@ -48,7 +51,7 @@ const SideBar = ({ isOpen, toggle }) => {
               className="f-white"
               hidden={userRole === "user"}
             >
-              <FontAwesomeIcon icon={faBriefcase} className="mr-2" />
+              <FontAwesomeIcon icon={faBoxArchive} className="mr-2" />
               Manage Category
             </NavLink>
           </NavItem>
@@ -59,19 +62,19 @@ const SideBar = ({ isOpen, toggle }) => {
               className="f-white"
               hidden={userRole === "user"}
             >
-              <FontAwesomeIcon icon={faImage} className="mr-2" />
+              <FontAwesomeIcon icon={faListCheck} className="mr-2" />
               Manage Product
             </NavLink>
           </NavItem>
           <NavItem style={{ marginBottom: "2px" }}>
             <NavLink tag={Link} to={"/manageorder"} className="f-white">
-              <FontAwesomeIcon icon={faImage} className="mr-2" />
+              <FontAwesomeIcon icon={faPizzaSlice} className="mr-2" />
               Manage Order
             </NavLink>
           </NavItem>
           <NavItem style={{ marginBottom: "2px" }}>
             <NavLink tag={Link} to={"/viewbill"} className="f-white">
-              <FontAwesomeIcon icon={faPaperPlane} className="mr-2" />
+              <FontAwesomeIcon icon={faWallet} className="mr-2" />
               View Bill
             </NavLink>
           </NavItem>
@@ -82,7 +85,7 @@ const SideBar = ({ isOpen, toggle }) => {
               className="f-white"
               hidden={userRole === "user"}
             >
-              <FontAwesomeIcon icon={faPaperPlane} className="mr-2" />
+              <FontAwesomeIcon icon={faUser} className="mr-2" />
               Manage Users
             </NavLink>
           </NavItem>
