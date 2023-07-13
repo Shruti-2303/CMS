@@ -71,14 +71,19 @@ const Login = () => {
   return (
     <Base>
       <div
-        style={{ display: "flex", backgroundColor: "#e3e6f6", height: "92vh" }}
+        style={{
+          display: "flex",
+          backgroundColor: "#e3e6f6",
+          height: "94vh",
+          alignItems: "center",
+        }}
       >
         <img
           src={eatingCafe}
           alt=""
           style={{
             width: "600px",
-            marginTop: "80px",
+            marginTop: "30px",
             height: "72vh",
             marginLeft: "30px",
           }}
@@ -88,8 +93,8 @@ const Login = () => {
             backgroundColor: "#fff",
             width: "450px",
             marginLeft: "200px",
-            height: "72vh",
-            marginTop: "75px",
+            height: "60vh",
+            marginTop: "20px",
             padding: "30px",
             border: "0.5px solid #7386d5",
           }}
@@ -124,7 +129,7 @@ const Login = () => {
                   style={{ border: "1px solid #7386d5" }}
                 />
               </FormGroup>
-              <FormGroup style={{ marginTop: "50px" }}>
+              <FormGroup style={{ marginTop: "30px" }}>
                 <Label
                   for="password"
                   style={{ color: "#22283f", fontSize: "20px" }}
