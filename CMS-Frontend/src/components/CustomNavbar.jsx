@@ -44,7 +44,14 @@ const CustomNavbar = ({ home }) => {
         className="px-5"
       >
         <NavbarBrand href="/">
-          <FontAwesomeIcon icon={faMugHot} style={{ marginRight: "10px" }} />
+          <FontAwesomeIcon
+            icon={faMugHot}
+            style={{
+              marginRight: "10px",
+              fontSize: "20px",
+              marginBottom: "1px",
+            }}
+          />
           BeCafe
         </NavbarBrand>
         <NavbarToggler onClick={toggle} />

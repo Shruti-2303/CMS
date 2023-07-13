@@ -302,12 +302,15 @@ const ManageOrderComp = (args) => {
   const handleDeleteProduct = (index) => {
     // Create a copy of the productArray
     const updatedProductArray = [...productArray];
+    const updatedProductDetails = [...productDetails];
 
     // Remove the product object at the specified index
     updatedProductArray.splice(index, 1);
+    updatedProductDetails.splice(index, 1);
 
     // Update the productArray state with the new array
     setProductArray(updatedProductArray);
+    setProductDetails(updatedProductDetails);
   };
 
   useEffect(() => {
