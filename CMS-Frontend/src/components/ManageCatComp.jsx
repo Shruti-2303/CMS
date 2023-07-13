@@ -145,7 +145,13 @@ const ManageCatComp = (args) => {
           }}
         >
           <CardTitle tag="h5">Manage Category</CardTitle>
-          <Button onClick={addCategoryToggle} style={{ background: "#6d7fcc" }}>
+          <Button
+            onClick={() => {
+              setAddCat("");
+              addCategoryToggle();
+            }}
+            style={{ background: "#6d7fcc" }}
+          >
             Add Category <BsPlusCircle />
           </Button>
         </CardBody>

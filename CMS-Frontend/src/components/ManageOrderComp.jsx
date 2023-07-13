@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { BsPlusCircle } from "react-icons/bs";
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillPrinter } from "react-icons/ai";
+import { MdDelete } from "react-icons/md";
 import {
   Button,
   Card,
   CardBody,
+  CardText,
   CardTitle,
   Form,
   FormGroup,
@@ -20,23 +21,36 @@ import {
 } from "reactstrap";
 
 const ManageOrderComp = (args) => {
+  const [productArray, setProductArray] = useState([]);
   const [productDetails, setProductDetails] = useState([]);
-  const [filteredUserDetails, setFilteredUserDetails] = useState([]);
-  const [addFilter, setAddFilter] = useState("");
+
   const [addName, setAddName] = useState("");
-  const [addPrice, setAddPrice] = useState("");
-  const [addCategory, setAddCategory] = useState("");
-  const [addDesc, setAddDesc] = useState("");
-  const [modal, setModal] = useState(false);
-  const [modal2, setModal2] = useState(false);
+  const [addEmail, setAddEmail] = useState("");
+  const [addContact, setAddContact] = useState("");
+  const [addPayment, setPayment] = useState("");
+
+  const [prodCategory, setProdCategory] = useState("");
+  const [productChange, setProductChange] = useState();
+  const [prodPrice, setProdPrice] = useState();
+  const [addQuantity, setAddQuantity] = useState();
+  const [totalAmount, setTotalAmount] = useState();
+
+  const [productsByCategory, setProductsByCategory] = useState();
+  const [productsById, setProductsById] = useState();
+
   const [categories, setCategories] = useState([]);
-  const [deleteProductSelect, setDeleteProductSelect] = useState();
+  const [products, setProducts] = useState([]);
+  const [paymentMethods, setPaymentMethods] = useState([
+    { name: "Cash", id: "1" },
+    { name: "Credit Card", id: "2" },
+    { name: "Debit Card", id: "3" },
+  ]);
 
   let data = JSON.parse(localStorage.getItem("data"));
   let userToken = data.token;
 
   const fetchCategoryDetails = async () => {
-    const apiUrl = "http://localhost:8081/category/get";
+    const apiUrl = "http://localhost:8081/category/get?filterValue=true";
 
     const config = {
       headers: {
@@ -47,29 +61,9 @@ const ManageOrderComp = (args) => {
     try {
       const response = await axios.get(apiUrl, config);
       setCategories(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const resetForm = () => {
-    setAddName("");
-    setAddPrice("");
-    setAddCategory("");
-    setAddDesc("");
-  };
-
-  const handleFilter = (e) => {
-    setAddFilter(e.target.value);
-    const filteredUsers = productDetails.filter((product) =>
-      product.name.toLowerCase().includes(e.target.value.toLowerCase())
-    );
-    setFilteredUserDetails(filteredUsers);
-  };
-
-  const handleDeleteProduct = (deleteId) => {
-    deleteProduct(deleteId);
   };
 
   const fetchProductDetails = async () => {
@@ -83,13 +77,243 @@ const ManageOrderComp = (args) => {
 
     try {
       const response = await axios.get(apiUrl, config);
-      setProductDetails(response.data);
-      console.log("Products Detail", response.data);
+      setProducts(response.data);
     } catch (error) {
       console.error(error);
     }
   };
 
+  const getProductByCategory = async (prodCat) => {
+    const apiUrl = `http://localhost:8081/product/getByCategory/${prodCat}`;
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    };
+
+    try {
+      const response = await axios.get(apiUrl, config);
+      setProductsByCategory(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getProductInfoById = async (productId) => {
+    const apiUrl = `http://localhost:8081/product/getProductById/${productId}`;
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    };
+
+    try {
+      const response = await axios.get(apiUrl, config);
+      setProductsById(response.data);
+      setProdPrice(response.data.price);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getCategoryByID = (categoryID) => {
+    const category = categories.find((category) => category.id === categoryID);
+    return category ? category.name : "";
+  };
+
+  const getProductByID = (productID) => {
+    const product = products.find((product) => product.id === productID);
+    return product ? product.name : "";
+  };
+
+  const resetForm = () => {
+    setProductChange("");
+    setAddQuantity("");
+  };
+  const resetForm2 = () => {
+    setAddName("");
+    setAddEmail("");
+    setAddContact("");
+    setPayment("");
+    setProductsById("");
+    setProdCategory("");
+    setProductChange("");
+    setAddQuantity("");
+    setProductArray([]);
+    setProductDetails([]);
+  };
+
+  const handleNameChange = (e) => {
+    setAddName(e.target.value);
+  };
+  const handleEmailChange = (e) => {
+    setAddEmail(e.target.value);
+  };
+  const handleContactChange = (e) => {
+    setAddContact(e.target.value);
+  };
+  const handlePaymentChange = (e) => {
+    setPayment(e.target.value);
+  };
+  const handleQuantityChange = (e) => {
+    const value = parseInt(e.target.value);
+
+    if (value >= 1) {
+      setAddQuantity(value);
+    }
+  };
+  const handleProdCategoryChange = (e) => {
+    setProdCategory(e.target.value);
+    getProductByCategory(e.target.value);
+    resetForm();
+  };
+
+  const handleProductChange = (e) => {
+    setProductChange(e.target.value);
+    setAddQuantity(1);
+    getProductInfoById(e.target.value);
+  };
+
+  const generateReport = async (e) => {
+    e.preventDefault();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    };
+
+    try {
+      const calculatedTotalAmount = productDetails.reduce(
+        (total, product) => total + product.total,
+        0
+      );
+
+      const response = await axios.post(
+        "http://localhost:8081/bill/generateReport",
+        {
+          contactNumber: addContact,
+          email: addEmail,
+          name: addName,
+          paymentMethod: addPayment,
+          productDetails: JSON.stringify(productDetails),
+          totalAmount: calculatedTotalAmount.toString(),
+        },
+        config
+      );
+
+      resetForm2();
+      generatePdf(
+        addContact,
+        addEmail,
+        addName,
+        addPayment,
+        JSON.stringify(productDetails),
+        (addQuantity * prodPrice).toString(),
+        response.data.uuid
+      );
+
+      console.log("API DATA", response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const downloadPdf = (data, uuid) => {
+    const blob = new Blob([data], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${uuid}.pdf`;
+    link.click();
+  };
+
+  const generatePdf = async (
+    contactNumber,
+    email,
+    name,
+    paymentMethod,
+    productDetails,
+    totalAmount,
+    uuid
+  ) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+      responseType: "arraybuffer",
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8081/bill/getPdf",
+        {
+          contactNumber: contactNumber,
+          email: email,
+          name: name,
+          paymentMethod: paymentMethod,
+          productDetails: productDetails,
+          totalAmount: totalAmount,
+          uuid: uuid,
+        },
+        config
+      );
+
+      console.log("API DATA", response.data);
+      downloadPdf(response.data, uuid);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleAddBtnClick = () => {
+    // Create an object with the desired properties
+    const newProduct = {
+      prodCategory: getCategoryByID(+prodCategory),
+      productChange: getProductByID(+productChange),
+      prodPrice: prodPrice,
+      addQuantity: addQuantity,
+    };
+
+    // Update the productArray state by appending the new object
+    setProductArray((prevProductArray) => [...prevProductArray, newProduct]);
+  };
+  const handleAddBtnClick2 = () => {
+    // Create an object with the desired properties
+
+    const newProduct = {
+      id: +productChange,
+      name: getProductByID(+productChange),
+      category: getCategoryByID(+prodCategory),
+      quantity: addQuantity.toString(),
+      price: prodPrice,
+      total: addQuantity * prodPrice,
+    };
+
+    // Update the productArray state by appending the new object
+    setProductDetails((prevProductDetails) => [
+      ...prevProductDetails,
+      newProduct,
+    ]);
+  };
+
+  const handleDeleteProduct = (index) => {
+    // Create a copy of the productArray
+    const updatedProductArray = [...productArray];
+
+    // Remove the product object at the specified index
+    updatedProductArray.splice(index, 1);
+
+    // Update the productArray state with the new array
+    setProductArray(updatedProductArray);
+  };
+
+  useEffect(() => {
+    fetchCategoryDetails();
+    fetchProductDetails();
+  }, []);
   return (
     <div>
       <Card
@@ -106,136 +330,35 @@ const ManageOrderComp = (args) => {
           }}
         >
           <CardTitle tag="h5">Manage Order</CardTitle>
-          <Button
-            onClick={addProductModalToggle}
-            style={{ background: "#6d7fcc" }}
-          >
-            Add Product <BsPlusCircle />
+          <Button style={{ background: "#6d7fcc" }} onClick={generateReport}>
+            Submit Bill
+            <AiFillPrinter
+              style={{
+                marginBottom: "3px",
+                marginLeft: "6px",
+                fontSize: "20px",
+              }}
+            />
           </Button>
         </CardBody>
       </Card>
-
       <Card
         style={{
           width: "95%",
           marginTop: "10px",
         }}
       >
-        <input
+        <CardBody
           style={{
-            border: "none",
-            padding: "5px",
+            display: "flex",
+            flexDirection: "column",
           }}
-          type="text"
-          placeholder="Filter"
-          onChange={handleFilter}
-        />
-      </Card>
-
-      <Card
-        style={{
-          width: "95%",
-          marginTop: "10px",
-        }}
-      >
-        <ListGroup flush>
-          <ListGroupItem
-            style={{ display: "flex", justifyContent: "space-evenly" }}
-          >
-            <div style={{ flex: "1" }}>
-              <strong>Name</strong>
-            </div>
-            <div style={{ flex: "1" }}>
-              <strong>Category</strong>
-            </div>
-            <div style={{ flex: "1" }}>
-              <strong>Description</strong>
-            </div>
-            <div style={{ flex: "1" }}>
-              <strong>Price</strong>
-            </div>
-            <div style={{ flex: "1" }}>
-              <strong>Action</strong>
-            </div>
-          </ListGroupItem>
-          {/* <ListGroupItem>{JSON.stringify(productDetails)}</ListGroupItem> */}
-          <ListGroup flush>
-            {addFilter
-              ? filteredUserDetails.map((product) => (
-                  <ListGroupItem
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                    key={product.id}
-                  >
-                    <div style={{ flex: "1" }}>{product.name}</div>
-                    <div style={{ flex: "1" }}>{product.categoryName}</div>
-                    <div style={{ flex: "1" }}>{product.description}</div>
-                    <div style={{ flex: "1" }}>{product.price}</div>
-                    <div style={{ flex: "1" }}>
-                      <Form></Form>
-                      <Form>
-                        <FormGroup switch disabled>
-                          <Input
-                            type="switch"
-                            checked={product.status === "true"}
-                            onChange={() => {
-                              console.log(product.id, "-", product.status);
-                              handleToggle(product.id, product.status);
-                            }}
-                          />
-                        </FormGroup>
-                      </Form>
-                    </div>
-                  </ListGroupItem>
-                ))
-              : productDetails.map((product) => (
-                  <ListGroupItem
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                    key={product.id}
-                  >
-                    <div style={{ flex: "1" }}>{product.name}</div>
-                    <div style={{ flex: "1" }}>{product.categoryName}</div>
-                    <div style={{ flex: "1" }}>{product.description}</div>
-                    <div style={{ flex: "1" }}>{product.price}</div>
-                    <div
-                      style={{
-                        flex: "1",
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <div>
-                        <Form>
-                          <FormGroup switch disabled>
-                            <Input
-                              type="switch"
-                              checked={product.status === "true"}
-                              onChange={() => {
-                                handleToggle(product.id, product.status);
-                              }}
-                            />
-                          </FormGroup>
-                        </Form>
-                      </div>
-                      <div
-                        style={{ marginBottom: "8px" }}
-                        onClick={() => deleteProductModalToggle(product.id)}
-                      >
-                        <AiFillDelete />
-                      </div>
-                    </div>
-                  </ListGroupItem>
-                ))}
-          </ListGroup>
-        </ListGroup>
-      </Card>
-
-      <Modal isOpen={modal} {...args}>
-        <ModalHeader onClick={addProductModalToggle}>Add Product</ModalHeader>
-        <ModalBody>
+        >
+          <CardTitle tag="h5">Customer Details</CardTitle>
           <Form>
             <FormGroup>
               <Input
-                name="product"
+                name="name"
                 value={addName}
                 placeholder="Name"
                 type="input"
@@ -245,24 +368,76 @@ const ManageOrderComp = (args) => {
             </FormGroup>
             <FormGroup>
               <Input
-                name="price"
-                value={addPrice}
-                placeholder="Price"
-                type="number"
-                onChange={handlePriceChange}
+                name="email"
+                value={addEmail}
+                placeholder="Email ID"
+                type="email"
+                onChange={handleEmailChange}
                 required
               />
             </FormGroup>
             <FormGroup>
               <Input
-                name="category"
-                value={addCategory}
-                placeholder="Category"
+                name="contactNo"
+                value={addContact}
+                placeholder="Contact Number"
+                type="tel"
+                pattern="[0-9]{10}"
+                title="Please enter a 10-digit number"
+                onChange={handleContactChange}
+                required
+              />
+            </FormGroup>
+            <FormGroup>
+              <Input
+                name="payment"
+                value={addPayment}
+                placeholder="Payment Method"
                 type="select"
-                onChange={handleCategoryChange}
+                onChange={handlePaymentChange}
                 required
               >
-                <option checked>Category</option>
+                <option hidden disabled selected value="">
+                  Payment Methods
+                </option>
+                {paymentMethods.map((payment) => (
+                  <option
+                    key={payment.id}
+                    label={payment.name}
+                    value={payment.name}
+                  />
+                ))}
+              </Input>
+            </FormGroup>
+          </Form>
+        </CardBody>
+      </Card>
+      <Card
+        style={{
+          width: "95%",
+          marginTop: "10px",
+        }}
+      >
+        <CardBody
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <CardTitle tag="h5">Select Product</CardTitle>
+          <Form>
+            <FormGroup>
+              <Input
+                name="ProductCategory"
+                value={prodCategory}
+                placeholder="Category"
+                type="select"
+                onChange={handleProdCategoryChange}
+                required
+              >
+                <option hidden disabled selected value="">
+                  Category
+                </option>
                 {categories.map((category) => (
                   <option
                     key={category.id}
@@ -274,47 +449,148 @@ const ManageOrderComp = (args) => {
             </FormGroup>
             <FormGroup>
               <Input
-                name="description"
-                value={addDesc}
-                placeholder="Description"
-                type="text"
-                onChange={handleDescChange}
+                name="ProductCategory"
+                value={productChange}
+                placeholder="Payment Method"
+                type="select"
+                onChange={handleProductChange}
+                required
+              >
+                <option hidden disabled selected value="">
+                  Product
+                </option>
+                {productsByCategory &&
+                  productsByCategory.map((product) => (
+                    <option
+                      key={product.id}
+                      label={product.name}
+                      value={product.id}
+                    />
+                  ))}
+              </Input>
+            </FormGroup>
+            <FormGroup>
+              <Input
+                name="price"
+                value={productsById ? productsById.price : ""}
+                placeholder="Price"
+                type="input"
+                readOnly
+              />
+            </FormGroup>
+            <FormGroup>
+              <Input
+                name="quantity"
+                value={addQuantity}
+                placeholder="Quantity"
+                type="number"
+                onChange={handleQuantityChange}
                 required
               />
             </FormGroup>
+            <FormGroup>
+              <Input
+                name="total"
+                value={
+                  addQuantity &&
+                  productsById &&
+                  productsById.price * addQuantity
+                }
+                placeholder="Total"
+                type="input"
+                readOnly
+              />
+            </FormGroup>
+            {totalAmount}
+            <div>
+              <Button
+                onClick={() => {
+                  handleAddBtnClick();
+                  handleAddBtnClick2();
+                }}
+                style={{ background: "#7386d5" }}
+              >
+                Add
+              </Button>
+            </div>
           </Form>
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            disabled={!addName}
-            color="primary"
-            onClick={handleAddProduct}
-          >
-            Add Product
-          </Button>
-          <Button color="secondary" onClick={addProductModalToggle}>
-            Cancel
-          </Button>
-        </ModalFooter>
-      </Modal>
+        </CardBody>
+      </Card>
+      {/* {JSON.stringify(productArray)} */}
 
-      <Modal isOpen={modal2} {...args}>
-        <ModalHeader onClick={deleteProductModalToggle}>
-          Confirmation
-        </ModalHeader>
-        <ModalBody>Are you sure to delete the product?</ModalBody>
-        <ModalFooter>
-          <Button
-            color="success"
-            onClick={() => handleDeleteProduct(deleteProductSelect)}
+      <Card
+        style={{
+          width: "95%",
+          marginTop: "10px",
+        }}
+      >
+        <ListGroup flush>
+          <ListGroupItem
+            style={{
+              display: "flex",
+            }}
           >
-            Yes
-          </Button>
-          <Button color="danger" onClick={deleteProductModalToggle}>
-            Cancel
-          </Button>
-        </ModalFooter>
-      </Modal>
+            <div style={{ flex: "1" }}>
+              <strong>Name</strong>
+            </div>
+            <div style={{ flex: "1" }}>
+              <strong>Category</strong>
+            </div>
+            <div style={{ flex: "1" }}>
+              <strong>Price</strong>
+            </div>
+            <div style={{ flex: "1" }}>
+              <strong>Quantity</strong>
+            </div>
+            <div style={{ flex: "1" }}>
+              <strong>Total</strong>
+            </div>
+            <div style={{ flex: "1" }}>
+              <strong>Delete</strong>
+            </div>
+          </ListGroupItem>
+          {productArray.map((product, index) => (
+            <ListGroupItem
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+              key={product.id}
+            >
+              <div style={{ flex: "1" }}>
+                {/* {getProductByID(+product.productChange)} */}
+                {product.productChange}
+              </div>
+              <div style={{ flex: "1" }}>
+                {/* {getCategoryByID(+product.prodCategory)} */}
+                {product.prodCategory}
+              </div>
+              <div style={{ flex: "1" }}>{product.prodPrice}</div>
+              <div style={{ flex: "1" }}>{product.addQuantity}</div>
+              <div style={{ flex: "1" }}>
+                {product.prodPrice * product.addQuantity}
+              </div>
+              <div
+                style={{
+                  flex: "1",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <div style={{ marginBottom: "8px", marginLeft: "12px" }}>
+                  <MdDelete
+                    style={{ fontSize: "17px" }}
+                    onClick={() => handleDeleteProduct(index)}
+                  />
+                </div>
+              </div>
+            </ListGroupItem>
+          ))}
+          {/* <ListGroupItem>{JSON.stringify(productDetails)}</ListGroupItem> */}
+          {/* {JSON.stringify(categories)} */}
+        </ListGroup>
+      </Card>
     </div>
   );
 };

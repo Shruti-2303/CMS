@@ -4,7 +4,7 @@ import cafeImg from "../assets/Cafe-Image.svg";
 
 const Home = () => {
   return (
-    <Base>
+    <Base home={true}>
       <div
         style={{
           display: "flex",

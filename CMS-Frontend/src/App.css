@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins&display=swap');
+*{
+    font-size: 14px;
+}
 .heading{
     font-family: 'DM Serif Display', serif;
     font-weight: 400;

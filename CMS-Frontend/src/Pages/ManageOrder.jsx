@@ -10,7 +10,9 @@ const ManageOrder = () => {
           <SideBar />
         </div>
 
-        <div style={{ flex: 4 }}>Manage Order</div>
+        <div style={{ flex: 4 }}>
+          <ManageOrderComp />
+        </div>
       </div>
     </Base>
   );

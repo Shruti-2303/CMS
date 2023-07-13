@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BsPlusCircle } from "react-icons/bs";
-import { AiFillDelete } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import {
   Button,
@@ -255,7 +254,7 @@ const ManageProductComp = (args) => {
             <div style={{ flex: "1" }}>
               <strong>Category</strong>
             </div>
-            <div style={{ flex: "1" }}>
+            <div style={{ flex: "2" }}>
               <strong>Description</strong>
             </div>
             <div style={{ flex: "1" }}>
@@ -275,7 +274,7 @@ const ManageProductComp = (args) => {
                   >
                     <div style={{ flex: "1" }}>{product.name}</div>
                     <div style={{ flex: "1" }}>{product.categoryName}</div>
-                    <div style={{ flex: "1" }}>{product.description}</div>
+                    <div style={{ flex: "2" }}>{product.description}</div>
                     <div style={{ flex: "1" }}>{product.price}</div>
                     <div
                       style={{
@@ -313,7 +312,7 @@ const ManageProductComp = (args) => {
                   >
                     <div style={{ flex: "1" }}>{product.name}</div>
                     <div style={{ flex: "1" }}>{product.categoryName}</div>
-                    <div style={{ flex: "1" }}>{product.description}</div>
+                    <div style={{ flex: "2" }}>{product.description}</div>
                     <div style={{ flex: "1" }}>{product.price}</div>
                     <div
                       style={{

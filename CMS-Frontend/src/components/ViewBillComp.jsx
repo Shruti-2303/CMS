@@ -18,7 +18,6 @@ import {
   ModalHeader,
 } from "reactstrap";
 import { GrDocumentPdf } from "react-icons/gr";
-import { AiFillDelete } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 
 const ViewBillComp = (args) => {
@@ -179,12 +178,12 @@ const ViewBillComp = (args) => {
       >
         <ListGroup flush>
           <ListGroupItem
-            style={{ display: "flex", justifyContent: "space-evenly" }}
+            style={{ display: "flex", justifyContent: "space-between" }}
           >
             <div style={{ flex: "1" }}>
               <strong>Name</strong>
             </div>
-            <div style={{ flex: "1" }}>
+            <div style={{ flex: "2" }}>
               <strong>Email</strong>
             </div>
             <div style={{ flex: "1" }}>
@@ -200,27 +199,23 @@ const ViewBillComp = (args) => {
               <strong>Action</strong>
             </div>
           </ListGroupItem>
-        </ListGroup>
-
-        <ListGroup flush>
           {addFilter
             ? filteredBillDetails.map((bill) => (
                 <ListGroupItem
-                  style={{ display: "flex", justifyContent: "space-between" }}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
                   key={bill.id}
                 >
                   <div style={{ flex: "1" }}>{bill.name}</div>
-                  <div style={{ flex: "1" }}>{bill.email}</div>
+                  <div style={{ flex: "2" }}>{bill.email}</div>
                   <div style={{ flex: "1" }}>{bill.contactNumber}</div>
                   <div style={{ flex: "1" }}>{bill.paymentMethod}</div>
                   <div style={{ flex: "1" }}>{bill.total}</div>
                   <div style={{ flex: "1", display: "flex" }}>
                     <GrDocumentPdf
-<<<<<<< Updated upstream
                       style={{ margin: "5px", fontSize: "17px" }}
-=======
-                      style={{ margin: "5px", fontSize: "18px" }}
->>>>>>> Stashed changes
                       onClick={() =>
                         generatePdf(
                           bill.contactNumber,
@@ -245,7 +240,7 @@ const ViewBillComp = (args) => {
                   key={bill.id}
                 >
                   <div style={{ flex: "1" }}>{bill.name}</div>
-                  <div style={{ flex: "1" }}>{bill.email}</div>
+                  <div style={{ flex: "2" }}>{bill.email}</div>
                   <div style={{ flex: "1" }}>{bill.contactNumber}</div>
                   <div style={{ flex: "1" }}>{bill.paymentMethod}</div>
                   <div style={{ flex: "1" }}>{bill.total}</div>
